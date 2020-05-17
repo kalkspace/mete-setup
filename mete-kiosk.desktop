@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Mete Kiosk
+Exec=/home/mete/start-mete-kiosk.sh
+Icon=firefox
+Terminal=false

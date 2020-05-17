@@ -1,0 +1,31 @@
+# accessible via port 8080 (should not be exposed to the outer world)
+[api]
+  dashboard = true
+  insecure = true
+
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+#    [entryPoints.web.http]
+#      [entryPoints.web.http.redirections]
+#        [entryPoints.web.http.redirections.entryPoint]
+#          to = "websecure"
+#          scheme = "https"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+[providers.docker]
+  network = "mete-setup_ingress"
+  exposedByDefault = false
+
+#[log]
+#  level = "debug"
+
+[certificatesResolvers.letsencrypt.acme]
+  email = "andreas@mop.koeln"
+  storage = "/certs/acme.json"
+  [certificatesResolvers.letsencrypt.acme.httpChallenge]
+    # used during the challenge
+    entryPoint = "web"

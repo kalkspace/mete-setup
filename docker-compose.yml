@@ -1,0 +1,53 @@
+version: "3"
+volumes:
+  system:
+  database:
+  traefik-certs:
+
+networks:
+  ingress:
+  db:
+    internal: true
+
+services:
+  mete:
+    image: chaosdorf/mete
+    environment:
+      RAILS_ENV: production
+    volumes:
+      - system:/app/public/system
+    restart: unless-stopped
+    networks:
+      - ingress
+      - db
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.only-internal.ipwhitelist.sourcerange=2001:4dd0:4c3a:1::/64"
+      - "traefik.http.routers.mete-https.entrypoints=websecure"
+      - "traefik.http.routers.mete-https.middlewares=only-internal"
+      - "traefik.http.routers.mete-https.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mete-http.entrypoints=web"
+      - "traefik.http.routers.mete-http.rule=Host(`localhost`)"
+  db:
+    image: postgres:10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: mete
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - db
+
+  traefik:
+    build: traefik
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - traefik-certs:/certs
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 127.0.0.1:8080:8080 # dashboard
+      - 127.0.0.1:80:80
+      - 127.0.0.1:443:443
