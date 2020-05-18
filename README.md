@@ -139,6 +139,8 @@ docker-compose up -d
 - manchmal hat der firefox nen geilen blauen balken da wo die GNOME status zeile sein sollte
 - die onscreen tastatur von gnome ist relativ klein (wurstfinger)
 - scaling des displays macht leider die onscreen tastatur kaputt (skaliert nicht mit und ist abgeschnitten)
+- ich wuerde gerne das display komplett abdunkeln lassen nach einer weile, aber wenn der display ausgeht, kommen auch keine
+  touchevents mehr zum aufwecken
 
 ## TODO
 
