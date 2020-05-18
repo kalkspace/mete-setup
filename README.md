@@ -143,3 +143,4 @@ docker-compose up -d
 ## TODO
 
 - SSL im Space fixen (vorbereitung schon gemacht)
+- Kamera an den Start bringen fuer Barcodescan
